@@ -1,0 +1,42 @@
+[System]
+Name='Emergency_Braking'
+Type='mamdani'
+Version=2.0
+NumInputs=2
+NumOutputs=1
+NumRules=5
+AndMethod='min'
+OrMethod='max'
+ImpMethod='min'
+AggMethod='max'
+DefuzzMethod='centroid'
+
+[Input1]
+Name='car_velocity'
+Range=[0 30]
+NumMFs=3
+MF1='slow':'gaussmf',[6.37 0]
+MF2='medium':'gaussmf',[6.37 15]
+MF3='fast':'gaussmf',[6.37 30]
+
+[Input2]
+Name='distance_from_an_obstacle'
+Range=[0 10]
+NumMFs=2
+MF1='near':'gaussmf',[4.247 0]
+MF2='far':'gaussmf',[4.247 10]
+
+[Output1]
+Name='braking'
+Range=[0 1]
+NumMFs=3
+MF1='gentle':'gaussmf',[0.2123 0]
+MF2='moderate':'gaussmf',[0.2123 0.5]
+MF3='sudden':'gaussmf',[0.2123 1]
+
+[Rules]
+1 2, 1 (1) : 1
+2 2, 2 (1) : 1
+1 1, 2 (1) : 1
+2 1, 3 (1) : 1
+3 0, 3 (1) : 1
